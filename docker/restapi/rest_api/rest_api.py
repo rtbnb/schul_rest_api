@@ -8,8 +8,8 @@ def get_connection():
     try:
         connection = cn.connect(host='172.20.0.4',
                                 database='rest_api_db',
-                                user='gast',
-                                password='gast')
+                                user='root',
+                                password='root')
         return connection
 
     except cn.Error as err:

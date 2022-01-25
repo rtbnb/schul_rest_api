@@ -1,0 +1,32 @@
+version: '3'
+
+
+services:
+   person_api:
+      build: .
+      container_name: rest_api
+      restart: always
+      volumes:
+         - /api_data:/data
+      links:
+         - maria_db
+      networks: 
+         proxy_default: 
+            ipv4_address: 172.20.0.3
+   maria_db:
+     image: "mariadb:latest"
+     restart: 'always'
+     volumes:
+        - "/var/lib/mysql/"
+        - /var/docker/mariadb/conf:/etc/mysql
+        - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+     environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_USER: gast
+        MYSQL_PASSWORD: gast
+     networks:
+        proxy_default:
+            ipv4_address: 172.20.0.4
+networks:
+  proxy_default:
+    external: true

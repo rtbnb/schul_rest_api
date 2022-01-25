@@ -1,0 +1,28 @@
+version: '2'
+
+networks:
+   default:
+      ipam:
+         config:
+          - subnet: 172.20.0.0/16
+            gateway: 172.20.0.1
+
+services:
+   nginx:
+      build: nginx/.
+      container_name: reverse_proxy
+      restart: always
+      ports:
+       - 80:80
+       - 443:443
+      volumes:
+       - /etc/letsencrypt:/etc/letsencrypt
+       - /var/run/docker.sock:/tmp/docker.sock:ro
+       - nginx_logs:/var/log_nginx
+       - nginx_html:/usr/share/nginx/html
+      networks:
+         default: 
+            ipv4_address: 172.20.0.2
+volumes:
+   nginx_logs:
+   nginx_html:

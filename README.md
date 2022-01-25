@@ -1,1 +1,0 @@
-# schul_rest_api
